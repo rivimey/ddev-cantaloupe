@@ -9,6 +9,23 @@
 
 This add-on integrates Cantaloupe into your [DDEV](https://ddev.com/) project.
 
+**TESTING**
+The dockerfiles here are not expected to work as-is.
+
+``islandora-Dockerfile`` is from https://hub.docker.com/r/islandora/cantaloupe
+which has been updated for version 5 of Cantaloupe, but is also for a tuned
+version of the Islandora application and so may have dependencies on that.
+
+``ivanwissen-Dockerfile`` is from https://github.com/LvanWissen/docker-cantaloupe
+which is intended as a general purpose thing but is for pre-v5 Cantaloupe on
+ubuntu 18.04 (which at time of writing is very old).
+
+I am not sure if either represents a good starting point for ddev-cantaloupe.
+
+Cantaloupe in general will need a data directory for image cache, which could
+grow very big. Ideally a ddev version will do something automagically but it
+may need tuning.
+
 ## Installation
 
 ```bash

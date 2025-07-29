@@ -2,15 +2,36 @@
 # Simple template to demonstrate cantaloupe
 services:
   cantaloupe:
+
     container_name: ddev-${DDEV_SITENAME}-cantaloupe
     image: ${CANTALOUPE_DOCKER_IMAGE:-busybox:stable}
     command: tail -f /dev/null
     restart: "no"
+
     # These labels ensure this service is discoverable by DDEV.
+    expose:
+      - 8182
+      -
     labels:
       com.ddev.site-name: ${DDEV_SITENAME}
       com.ddev.approot: ${DDEV_APPROOT}
 
+    environment:
+      CANTALOUPE_HOST: ddev-${DDEV_SITENAME}-cantaloupe
+      CANTALOUPE_PORT: 8182
+      # The pre-trained OpenNLP models require a much bigger buffer.
+      #CANTALOUPE_OPTS:
+      #CANTALOUPE_HEAP: 1g
+      #CANTALOUPE_AUTH_TYPE: basic
+      #CANTALOUPE_AUTHENTICATION_OPTS:
+      VIRTUAL_HOST: ${DDEV_HOSTNAME}
+      HTTP_EXPOSE: 8182:8182
+      HTTPS_EXPOSE: 8183:8183
+
     volumes:
       - ".:/mnt/ddev_config"
+      - "/data:/mnt/cantaloupe/data"
       - "ddev-global-cache:/mnt/ddev-global-cache"
+
+    healthcheck:
+      test: ["CMD-SHELL", "curl --fail -p 8182:8182 -s localhost/cantaloupe/"]

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+## #ddev-generated: If you want to edit and own this file, remove this line.
+## Description: Launch a browser with Cantaloupe
+## Usage: cantaloupe
+## Example: "ddev cantaloupe"
+
+DDEV_CANTALOUPE_PORT=8182
+DDEV_CANTALOUPE_HTTPS_PORT=8183
+
+if [ ${DDEV_PRIMARY_URL%://*} = "http" ] || [ -n "${GITPOD_WORKSPACE_ID:-}" ] || [ "${CODESPACES:-}" = "true" ]; then
+    ddev launch :$DDEV_CANTALOUPE_PORT
+else
+    ddev launch :$DDEV_CANTALOUPE_HTTPS_PORT
+fi
